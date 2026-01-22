@@ -4,13 +4,6 @@ A MERN stack web application for managing books.
 
 ## Project Structure
 
-This project is divided into two main parts:
-
-- **backend**: The server-side API built with Node.js, Express, and MongoDB.
-
-- **frontend**: The client-side application built with React, Vite, and Tailwind CSS.
-
-
 **Backend**: Node.js, Express.js, MongoDB, Faker,.js (for records) 
 
 **Frontend**: React, Tailwind CSS, React Router DOM
