@@ -34,13 +34,25 @@ router.post('/', async (request, response) => {
 // Route to get all books
 router.get('/', async (request, response) => {
     try {
-        const books = await Book.find({});
+
+        const page = parseInt(request.query.page)  || 1;
+        const limit = parseInt(request.query.limit) || 10;
+
+        const skip = (page-1)*limit;
+
+        const books = await Book.find({}).skip(skip).limit(limit);
+
+        const totalBooks = await Book.countDocuments();
+
         return response.status(200).json(
             {
                 count: books.length,
+                totalBooks: totalBooks,
+                totalPages: Math.ceil(totalBooks/limit),
+                currentPage: page,
                 data: books
-            }
-        );
+
+            });
 
     } catch (error) {
         console.log(error.message);
