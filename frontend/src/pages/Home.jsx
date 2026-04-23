@@ -9,12 +9,18 @@ import BooksCard from '../components/home/BooksCard';
 const Home = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [showType, setShowType] = useState('table');
+  const [showType, setShowType] = useState(() => {
+    return localStorage.getItem('bookhaven_view_mode') || 'table';
+  });
   
   // New Pagination States
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10; // How many books to show per page
+
+  useEffect(() => {
+    localStorage.setItem('bookhaven_view_mode', showType);
+  }, [showType]);
 
   useEffect(() => {
     setLoading(true);
@@ -53,8 +59,8 @@ const Home = () => {
         </button>
       </div>
       
-      <div className='flex justify-between items-center'>
-        <h1 className='text-3xl my-8'>Books List</h1>
+      <div className='relative flex justify-end items-center my-8'>
+        <h1 className='text-3xl absolute left-1/2 -translate-x-1/2'>Books List</h1>
         <Link to='/books/create'>
           <MdOutlineAddBox className='text-sky-800 text-4xl' />
         </Link>
@@ -63,7 +69,7 @@ const Home = () => {
       {loading ? (
         <Spinner />
       ) : showType === 'table' ? (
-        <BooksTable books={books} />
+        <BooksTable books={books} page = {page} limit={limit} />
       ) : (
         <BooksCard books={books} />
       )}
